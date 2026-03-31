@@ -1,17 +1,21 @@
 #pragma once
 
-#include <objects.h>
+#include "objects.h"
 
 #include <vector>
+#include <memory>
 
 class World {
 
 private:
-    std::vector<Object> worldObjects;
+    std::vector<std::unique_ptr<Object>> worldObjects;
 
 public:
-    World();
-    World(const std::vector<Object> objects);
+    World() = default;
+    World(std::vector<std::unique_ptr<Object>> objects)
+        : worldObjects(std::move(objects)) {}
+
     void update();
     void draw();
+    void addObject(std::unique_ptr<Object> obj);
 };

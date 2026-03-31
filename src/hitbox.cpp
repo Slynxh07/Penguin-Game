@@ -28,5 +28,5 @@ bool H_Rectangle::collidesWithCircle(const H_Circle& other) const
 
 bool H_Rectangle::collidesWithRectangle(const H_Rectangle& other) const 
 {
-    
+
 }

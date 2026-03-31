@@ -1,10 +1,13 @@
 #include "game.h"
 #include "raylib.h"
 #include "penguin.h"
+#include "objects.h"
+#include "platform.h"
 
 void Game::update()
 {
     player.update();
+    world.update();
 }
 
 void Game::draw()
@@ -16,6 +19,7 @@ void Game::draw()
     DrawFPS(10, 10);
 
     player.draw();
+    world.draw();
 
     EndDrawing();
 }
@@ -24,6 +28,7 @@ Game::Game()
 {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Penguin Game");
     SetTargetFPS(60);
+    world.addObject(std::move(std::make_unique<Platform>(Hitbox(std::make_unique<H_Rectangle>(0, 600, 1280, 20)), 0, 600, 1280, 20, BLUE)));
 }
 
 bool Game::isRunning()

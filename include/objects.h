@@ -3,7 +3,7 @@
 #include "raylib.h"
 #include "hitbox.h"
 
-#include <optional>
+#include <memory>
 
 class Object {
     
@@ -12,7 +12,10 @@ private:
     Hitbox hitbox;
 
 public:
-    Object();
-    Object(Hitbox hitbox);
-    bool isColliding();
+    virtual ~Object() = default;
+    Object(Hitbox hitbox) : hitbox(std::move(hitbox)) {}
+    bool isColliding(const Object& other) const;
+    virtual void update() = 0;
+    virtual void draw() = 0;
+    void setHitbox(const Hitbox hb);
 };
