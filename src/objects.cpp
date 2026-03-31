@@ -5,8 +5,13 @@ bool Object::isColliding(const Object& other) const
     return hitbox.isColliding(other.hitbox);
 }
 
-void Object::setHitbox(const Hitbox hb)
+void Object::setHitboxPos(float x, float y)
 {
-    return;
-    //hitbox = std::move(hb);
+    hitbox.collisionArea->x = x;
+    hitbox.collisionArea->y = y;
+}
+
+Vector2 Object::getPos() const
+{
+    return pos;
 }

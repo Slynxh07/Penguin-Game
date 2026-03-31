@@ -9,3 +9,8 @@ void Platform::update()
 {
 
 }
+
+void Platform::handleCollision(const Object& other)
+{
+    
+}

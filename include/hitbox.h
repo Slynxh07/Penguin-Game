@@ -20,10 +20,8 @@ public:
 
 class H_Circle : public H_Shape {
 
-private:
-    float rad;
-
 public:
+    float rad;
     H_Circle(float x, float y, float rad) : H_Shape(x, y), rad(rad) {}
 
     bool collidesWith(const H_Shape& other) const override;
@@ -34,11 +32,9 @@ public:
 
 class H_Rectangle : public H_Shape {
 
-private:
+public:
     float width;
     float height;
-
-public:
     H_Rectangle(float x, float y, float width, float height) : H_Shape(x, y), width(width), height(height) {}
 
     bool collidesWith(const H_Shape& other) const override;

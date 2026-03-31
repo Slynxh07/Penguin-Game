@@ -11,8 +11,7 @@ private:
     static constexpr int WINDOW_HEIGHT = 720;
     
     World world;
-    Penguin player;
-
+    
     void update();
     void draw();
 

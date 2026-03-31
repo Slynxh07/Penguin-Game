@@ -1,23 +1,22 @@
 #pragma once
 
 #include "raylib.h"
-#include "hitbox.h"
+#include "objects.h"
 
 #include <memory>
 
-class Penguin {
+class Penguin : public Object {
 
 private:
     int id;
     Vector2 velocity = {0, 0};
-    Vector2 pos = (Vector2) {640, 360};
-    Hitbox hitbox = Hitbox(std::make_unique<H_Rectangle>(pos.x, pos.y, 20, 40));
+    bool grounded;
 
     void handleInput();
 
 public:
     Penguin();
-    void update();
-    void draw();
-
+    void update() override;
+    void draw() override;
+    void handleCollision(const Object& other) override;
 };
