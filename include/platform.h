@@ -16,4 +16,5 @@ public:
     void update() override;
     void draw() override;
     void handleCollision(const Object& other) override;
+    Vector2 getDimensions() const override;
 };

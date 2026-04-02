@@ -30,6 +30,7 @@ Game::Game()
     AssetManager::loadAssets();
     world.addObject(std::move(std::make_unique<Penguin>()));
     world.addObject(std::move(std::make_unique<Platform>(Hitbox(std::make_unique<H_Rectangle>(0, 600, 1280, 20)), 0, 600, 1280, 20, BLUE)));
+    world.addObject(std::move(std::make_unique<Platform>(Hitbox(std::make_unique<H_Rectangle>(0, 525, 1280, 20)), 0, 525, 1280, 20, BLUE)));
 }
 
 bool Game::isRunning()
