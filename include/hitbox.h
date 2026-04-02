@@ -20,6 +20,8 @@ public:
     virtual bool collidesWithRectangle(const H_Rectangle& other) const = 0;
 
     virtual float findDistanceFromRay(const Ray2D ray) const = 0;
+
+    virtual void draw() const = 0;
 };
 
 class H_Circle : public H_Shape {
@@ -34,6 +36,8 @@ public:
     bool collidesWithCircle(const H_Circle& other) const override;
     bool collidesWithRectangle(const H_Rectangle& other) const override;
     float findDistanceFromRay(const Ray2D ray) const override;
+
+    void draw() const override;
 };
 
 class H_Rectangle : public H_Shape {
@@ -49,6 +53,8 @@ public:
     bool collidesWithCircle(const H_Circle& other) const override;
     bool collidesWithRectangle(const H_Rectangle& other) const override;
     float findDistanceFromRay(const Ray2D ray) const override;
+
+    void draw() const override;
 };
 
 class Hitbox {
@@ -69,5 +75,9 @@ public:
 
     float findDistanceFromRay(const Ray2D& ray) const {
         return collisionArea->findDistanceFromRay(ray);
+    }
+
+    void draw() const {
+        collisionArea->draw();
     }
 };

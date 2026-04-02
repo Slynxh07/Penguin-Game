@@ -7,15 +7,15 @@ constexpr int GRAVITY = 5;
 
 Penguin::Penguin() : Object(Hitbox(std::make_unique<H_Rectangle>(pos.x, pos.y, 40, 40)))
 {
-    pos = (Vector2) {640, 575};
+    pos = {640, 575};
     grounded = false;
     flip = false;
     id = 1;
     playerState = PlayerState::IDLE;
-    upRay = Ray2D({ pos.x + 20, pos.y + 2.5f, }, { 0, -1 }, 20);
-    downRay = Ray2D({ pos.x + 20, pos.y + 37.5f, }, { 0, 1 }, 20);
-    rightRay = Ray2D({ pos.x + 37.5f, pos.y + 20,}, { 1, 0 }, 20);
-    leftRay = Ray2D({ pos.x + 2.5f, pos.y + 20, }, { -1, 0 }, 20);
+    upRay = Ray2D({ pos.x + 20, pos.y + 2.5f, }, { 0, -1 }, 15);
+    downRay = Ray2D({ pos.x + 20, pos.y + 37.5f, }, { 0, 1 }, 15);
+    rightRay = Ray2D({ pos.x + 37.5f, pos.y + 20,}, { 1, 0 }, 15);
+    leftRay = Ray2D({ pos.x + 2.5f, pos.y + 20, }, { -1, 0 }, 15);
     animationPlayer.setAnimation(penguinIdleAnim);
 }
 
@@ -39,10 +39,6 @@ void Penguin::update()
 void Penguin::draw()
 {
     animationPlayer.playAnimation({pos.x, pos.y, 40, 40}, {0, 0}, 0, WHITE, flip);
-    upRay.draw();
-    downRay.draw();
-    rightRay.draw();
-    leftRay.draw();
 }
 
 void Penguin::handleInput()
@@ -90,18 +86,35 @@ void Penguin::updateAnimation()
 }
 
 void Penguin::handleCollision(const Object& other)
-{ 
-    if(other.getPos().y >= pos.y)
+{
+    Ray2DCollision upCol = upRay.GetCollisionInfo(other);
+    Ray2DCollision downCol = downRay.GetCollisionInfo(other);
+    Ray2DCollision rightCol = rightRay.GetCollisionInfo(other);
+    Ray2DCollision leftCol = leftRay.GetCollisionInfo(other);
+
+    if (upCol.hit)
+    {
+        velocity.y = 0;
+        pos.y = other.getPos().y + other.getDimensions().y;    
+    }
+    else if (downCol.hit)
     {
         velocity.y = 0;
         pos.y = other.getPos().y - 40;
         grounded = true;
     }
-    else if (other.getPos().y <= pos.y)
+    
+    if (rightCol.hit)
     {
-        velocity.y = 0;
-        pos.y = other.getPos().y + other.getDimensions().y;
+        velocity.x = 0;
+        pos.x = other.getPos().x - 40;
     }
+    if (leftCol.hit)
+    {
+        velocity.x = 0;
+        pos.x = other.getPos().x + other.getDimensions().x;
+    }
+
     setHitboxPos(pos.x, pos.y);
 }
 

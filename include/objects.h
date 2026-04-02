@@ -27,4 +27,5 @@ public:
     void setHitboxPos(float x, float y);
     Vector2 getPos() const;
     virtual Vector2 getDimensions() const = 0;
+    void drawHitbox() const;
 };

@@ -25,3 +25,8 @@ float Object::findDistanceFromRay(const Ray2D& ray) const
 {
     return hitbox.findDistanceFromRay(ray);
 }
+
+void Object::drawHitbox() const
+{
+    hitbox.draw();
+}

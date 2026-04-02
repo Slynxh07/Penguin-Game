@@ -96,3 +96,13 @@ float H_Circle::findDistanceFromRay(const Ray2D ray) const
 
     return -1.0f;
 }
+
+void H_Circle::draw() const
+{
+    DrawCircle(x, y, rad, RED);
+}
+
+void H_Rectangle::draw() const
+{
+    DrawRectangle(x, y, width, height, RED);
+}
