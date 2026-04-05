@@ -19,3 +19,8 @@ Vector2 Platform::getDimensions() const
 {
     return {this->rect.width, this->rect.height};
 }
+
+void Platform::updatePos()
+{
+
+}

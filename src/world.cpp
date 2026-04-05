@@ -10,13 +10,16 @@ void World::update()
 
     for (int i = 0; i < worldObjects.size(); i++)
     {
-        for (int j = i + 1; j < worldObjects.size(); j++)
+        for (int j = 0; j < worldObjects.size(); j++)
         {
-            if (worldObjects.at(i)->isColliding(*worldObjects.at(j)))
-            {
-                worldObjects.at(i)->handleCollision(*worldObjects.at(j));
-            }
+            if (i == j) continue;
+            worldObjects.at(i)->handleCollision(*worldObjects.at(j));
         }
+    }
+
+    for (auto& o : worldObjects)
+    {
+        o->updatePos();
     }
 }
 

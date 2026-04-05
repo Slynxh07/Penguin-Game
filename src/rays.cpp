@@ -3,7 +3,7 @@
 
 Ray2DCollision Ray2D::GetCollisionInfo(const Object& other)
 {
-    Ray2DCollision collisionInfo = {false, 0 };
+    Ray2DCollision collisionInfo = {false, 0, this->direction};
     collisionInfo.hit = other.collidesWithRay(*this);
     if (collisionInfo.hit)
     {

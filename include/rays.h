@@ -7,6 +7,7 @@ class Object;
 typedef struct Ray2DCollision {
     bool hit;
     float distance;
+    Vector2 normal;
 } Ray2DCollision;
 
 

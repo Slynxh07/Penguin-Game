@@ -28,4 +28,5 @@ public:
     Vector2 getPos() const;
     virtual Vector2 getDimensions() const = 0;
     void drawHitbox() const;
+    virtual void updatePos() = 0;
 };

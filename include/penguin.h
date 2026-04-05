@@ -39,6 +39,7 @@ private:
 
 public:
     Penguin();
+    void updatePos() override;
     void update() override;
     void draw() override;
     void handleCollision(const Object& other) override;

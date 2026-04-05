@@ -1,9 +1,12 @@
 #include "penguin.h"
 #include "assetManager.h"
+#include "math.h"
+#include <iostream>
 
 constexpr float SPEED = 2.5f;
 constexpr int JUMP_POWER = 30;
 constexpr int GRAVITY = 5;
+constexpr float RAY_BUFFER = 5.0f;
 
 Penguin::Penguin() : Object(Hitbox(std::make_unique<H_Rectangle>(pos.x, pos.y, 40, 40)))
 {
@@ -23,10 +26,19 @@ void Penguin::update()
 {
     handleInput();
     applyPhysics();
+    grounded = false;
+}
 
+void Penguin::updatePos()
+{
     pos.x += velocity.x;
     pos.y += velocity.y;
     setHitboxPos(pos.x, pos.y);
+
+    upRay.length = fabs(velocity.y) + RAY_BUFFER;
+    downRay.length = fabs(velocity.y) + RAY_BUFFER;
+    rightRay.length = fabs(velocity.x) + RAY_BUFFER;
+    leftRay.length = fabs(velocity.x) + RAY_BUFFER;
 
     upRay.updatePos({pos.x + 20, pos.y + 2.5f});
     downRay.updatePos({pos.x + 20, pos.y + 37.5f});
@@ -47,7 +59,7 @@ void Penguin::handleInput()
     if (dir > 0) flip = true;
     else if (dir < 0) flip = false;
 
-    if (IsKeyPressed(KEY_SPACE))
+    if (IsKeyPressed(KEY_SPACE) && grounded)
     {
         velocity.y = -JUMP_POWER;
         grounded = false;
@@ -92,27 +104,30 @@ void Penguin::handleCollision(const Object& other)
     Ray2DCollision rightCol = rightRay.GetCollisionInfo(other);
     Ray2DCollision leftCol = leftRay.GetCollisionInfo(other);
 
-    if (upCol.hit)
+    const float epsilon = 0.1f;
+
+    if (velocity.y < 0 && upCol.hit && upCol.distance >= 0 && upCol.distance <= fabs(velocity.y) + 1)
     {
         velocity.y = 0;
-        pos.y = other.getPos().y + other.getDimensions().y;    
-    }
-    else if (downCol.hit)
-    {
-        velocity.y = 0;
-        pos.y = other.getPos().y - 40;
-        grounded = true;
+        pos.y = other.getPos().y + other.getDimensions().y + epsilon;
     }
     
-    if (rightCol.hit)
+    if (velocity.y >= 0 && downCol.hit && downCol.distance <= downRay.length)
     {
-        velocity.x = 0;
-        pos.x = other.getPos().x - 40;
+        velocity.y = 0;
+        pos.y = other.getPos().y - 40 + epsilon;
+        grounded = true;
     }
-    if (leftCol.hit)
+
+    if (velocity.x > 0 && rightCol.hit && rightCol.distance >= 0 && rightCol.distance <= fabs(velocity.x) + 1)
     {
         velocity.x = 0;
-        pos.x = other.getPos().x + other.getDimensions().x;
+        pos.x = other.getPos().x - 40 - epsilon;
+    }
+    else if (velocity.x < 0 && leftCol.hit && leftCol.distance >= 0 && leftCol.distance <= fabs(velocity.x) + 1)
+    {
+        velocity.x = 0;
+        pos.x = other.getPos().x + other.getDimensions().x + epsilon;
     }
 
     setHitboxPos(pos.x, pos.y);
